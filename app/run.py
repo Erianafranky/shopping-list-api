@@ -4,21 +4,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from functools import wraps
-from models import db, User, ShoppingList, ShoppingItem
+from app.models import db, User, ShoppingList, ShoppingItem
 
 app = Flask(__name__)
 POSTGRES = {
 	'user': 'postgres',
-	'pw': 'postgres',
-	'db': 'shoppinglistapi'
-	'host': 'localhost'
-	'port': '5432'
+	'pw': 'veronica93',
+	'db': 'shoppinglistapi',
+	'host': 'localhost',
+	'port': '5432',
 
 }
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
-db.init_app(app)
-
 app.config['SECRET_KEY'] = 'mysecretkey'
+db.init_app(app)
 
 
 def token_required(f):
@@ -200,4 +201,4 @@ def delete_shopping_list(current_user, shoppinglist_id):
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run()
